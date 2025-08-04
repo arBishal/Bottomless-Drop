@@ -27,8 +27,8 @@ export default function FolderCard({
       if (popoverRef.current && !popoverRef.current.contains(event.target)) {
         setShowPopover(false);
       }
+    setSelectedFolderId(null);
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
