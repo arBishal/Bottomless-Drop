@@ -11,7 +11,7 @@ export default function Breadcrumbs({currentFolder, setCurrentFolder, folders}) 
     path.reverse();
 
   return (
-    <div className="w-full bg-neutral-900 rounded-tl-2xl px-6 py-3 border-b border-neutral-700">
+    <div id="breadcrumbs" className="w-full bg-neutral-900 rounded-tl-2xl px-6 py-3 border-b border-neutral-700">
         {path.map((folder, index) => (
             <div key={folder.id} className="inline-flex items-center gap-2">
                 {index !== 0 && <span>/</span>}

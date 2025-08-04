@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import Breadcrumbs from "../components/Breadcrumb";
+import Breadcrumbs from "../components/Breadcrumbs";
 import Folders from "../components/Folders";
 
 export default function Home() {
@@ -28,8 +28,6 @@ export default function Home() {
       let folderId = "id" + Math.floor(Math.random() * 1000);
       let updatedFolders = { ...folders };
 
-      console.log(`Parent ID: ${parentId}`);
-
       if (updatedFolders[parentId]) {
         updatedFolders[parentId].children.push(folderId);
       } else {
@@ -43,7 +41,6 @@ export default function Home() {
         children: [],
       };
       setFolders(updatedFolders);
-      console.log(`Folder created: ${folderName} with ID: ${folderId}`);
       console.log(folders);
     } else {
       console.log("No name provided.");
@@ -63,14 +60,8 @@ export default function Home() {
           <button className="bg-neutral-900 px-6 py-3 w-full h-full hover:bg-neutral-700 font-bold border-l border-b border-neutral-700 cursor-pointer">
             ⤴︎
           </button>
-          <button
-            onClick={handleCreateFolder}
-            className="bg-neutral-900 px-6 py-3 w-full h-full hover:bg-neutral-700 font-bold border-l border-b border-neutral-700 cursor-pointer"
-          >
+          <button onClick={handleCreateFolder} className="bg-neutral-900 px-6 py-3 w-full h-full rounded-tr-2xl hover:bg-neutral-700 font-bold border-l border-b border-neutral-700 cursor-pointer">
             +
-          </button>
-          <button className="bg-neutral-900 px-6 py-3 w-full h-full rounded-tr-2xl hover:bg-neutral-700 font-bold border-l border-b border-neutral-700 cursor-pointer">
-            -
           </button>
         </div>
       </div>
