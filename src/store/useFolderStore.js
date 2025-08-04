@@ -1,10 +1,8 @@
 import { create } from "zustand";
 
 const useFolderStore = create((set) => ({
-    parentId: 0,
-    
-  setParentId: (id) => set({ parentId: id }),
-
+  // initial state
+  parentId: 0,
   folders: JSON.parse(localStorage.getItem("folders")) || {
     0: {
       id: 0,
@@ -13,19 +11,21 @@ const useFolderStore = create((set) => ({
       children: [],
     },
   },
+  selectedFolderId: null,
 
+  //   setters
+  setParentId: (id) => set({ parentId: id }),
   setFolders: (updater) =>
     set((state) => {
       const nextFolders =
-        typeof updater === "function"
-          ? updater(state.folders)
-          : updater;
+        typeof updater === "function" ? updater(state.folders) : updater;
 
       localStorage.setItem("folders", JSON.stringify(nextFolders));
       return { folders: nextFolders };
     }),
+  setSelectedFolderId: (id) => set({ selectedFolderId: id }),
 
-  // Rename a folder
+  // actions
   renameFolder: (id, newName) =>
     set((state) => {
       const updated = {
@@ -36,7 +36,6 @@ const useFolderStore = create((set) => ({
       return { folders: updated };
     }),
 
-  // Remove a folder
   removeFolder: (id) =>
     set((state) => {
       const updated = { ...state.folders };

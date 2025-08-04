@@ -11,9 +11,14 @@ export default function FolderCard({
   const [showPopover, setShowPopover] = useState(false);
   const popoverRef = useRef(null);
 
-  const { setParentId } = useFolderStore();
+  const { setParentId, selectedFolderId, setSelectedFolderId } = useFolderStore();
+  const isSelected = selectedFolderId === id;
 
-  const handleFolderClick = () => {
+  const handleSingleClick = () => {
+    setSelectedFolderId(id);
+  };
+
+  const handleDoubleClick = () => {
     setParentId(id);
   };
 
@@ -31,8 +36,11 @@ export default function FolderCard({
   return (
     <div
       key={id}
-      onClick={handleFolderClick}
-      className="min-h-14 flex items-center justify-between gap-4 hover:bg-neutral-700 rounded-lg cursor-pointer pl-4 pr-3"
+      onClick={handleSingleClick}
+      onDoubleClick={handleDoubleClick}
+      className={`min-h-14 flex items-center justify-between gap-4 rounded-lg cursor-pointer pl-4 pr-3 ${
+        isSelected ? "bg-neutral-700" : "hover:bg-neutral-800"
+      }`}
     >
       {/* left elements */}
       <div className="flex items-center gap-4">
