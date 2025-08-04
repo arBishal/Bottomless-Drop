@@ -1,22 +1,10 @@
 import React, { useState } from "react";
-
+import useFolderStore from "../store/useFolderStore";
 import Breadcrumbs from "../components/Breadcrumbs";
 import Folders from "../components/Folders";
 
 export default function Home() {
-  const [parentId, setParentId] = useState(0);
-  const [folders, setFolders] = useState(() => {
-    return (
-      JSON.parse(localStorage.getItem("folders")) || {
-        0: {
-          id: 0,
-          name: "Root",
-          parent: null,
-          children: [],
-        },
-      }
-    );
-  });
+  const { parentId, setParentId, folders, setFolders } = useFolderStore();
 
   const defaultFolderName = "Meow Folder";
 

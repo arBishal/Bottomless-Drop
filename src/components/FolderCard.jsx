@@ -1,8 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 
-export default function FolderCard({ id, folder, setParentId }) {
+import useFolderStore from "../store/useFolderStore";
+
+import Popover from "./Popover";
+
+export default function FolderCard({
+  id,
+  folder,
+}) {
   const [showPopover, setShowPopover] = useState(false);
   const popoverRef = useRef(null);
+
+  const { setParentId } = useFolderStore();
 
   const handleFolderClick = () => {
     setParentId(id);
@@ -47,7 +56,6 @@ export default function FolderCard({ id, folder, setParentId }) {
             e.stopPropagation();
             setShowPopover(!showPopover);
           }}
-          
           className="flex items-center text-lg text-center h-full px-2 hover:bg-neutral-600"
         >
           ⁝
@@ -56,10 +64,14 @@ export default function FolderCard({ id, folder, setParentId }) {
         {/* trigger popover */}
         {showPopover && (
           <div
-          ref={popoverRef}
-            className="absolute left-1/2 -translate-x-1/2 bg-neutral-800 rounded z-10 px-3 py-2"
+            ref={popoverRef}
+            onClick={(e) => e.stopPropagation()}
+            className="absolute left-1/2 -translate-x-1/2"
           >
-            Popover
+            <Popover
+              id={id}
+              closePopover={() => setShowPopover(false)}
+            />
           </div>
         )}
       </div>

@@ -5,7 +5,6 @@ import FolderCard from "./FolderCard";
 export default function Folders({
   folders,
   parentId,
-  setParentId,
 }) {
   return (
     <div id="folder-collection" className="grid grid-cols-4 gap-2 w-full">
@@ -19,7 +18,6 @@ export default function Folders({
             key={id}
             id={id}
             folder={folder}
-            setParentId={setParentId}
           />
         );
       })}
