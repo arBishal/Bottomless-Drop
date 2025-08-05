@@ -26,29 +26,25 @@ export default function Home() {
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
-    console.log("upload button clicked");
   }
 
   const handleFileUpload = (e) => {
-    const files = e.target.files;
+  const files = e.target.files;
 
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const fileObject = {
-          name: file.name,
-          type: file.type,
-          size: file.size,
-          content: file.result,
-          timestamp: Date.now(),
-        };
-        addFileToFolder(parentId, fileObject);
-        console.log("file uploaded:", fileObject);
-      };
-      reader.readAsDataURL(file);
-      console.log("file read:", file.name);
-    });
-  };
+  Array.from(files).forEach((file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      addFileToFolder(parentId, {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        result: reader.result,
+      });
+      console.log("file uploaded:", file.name);
+    };
+    reader.readAsDataURL(file);
+  });
+};
 
   return (
     <div className="h-full w-full max-w-5xl flex flex-col">
@@ -67,11 +63,14 @@ export default function Home() {
         onChange={handleFileUpload}
         />
       </div>
-      <div className="bg-neutral-900 rounded-b-2xl p-6 w-full h-full flex flex-col gap-8">
+      <div className="bg-neutral-900 rounded-b-2xl p-6 w-full h-full flex flex-col gap-1">
+        <h2> folders </h2>
         <Folders
           folders={folders}
           parentId={parentId}
         />
+        <hr className="border-neutral-800 my-6"/>
+        <h2> files </h2>
         <Files />
       </div>
     </div>

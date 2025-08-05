@@ -4,25 +4,27 @@ import useFolderStore from "../store/useFolderStore";
 
 import Popover from "./Popover";
 
-export default function FolderCard({ id, folder }) {
+export default function FolderCard({ id, item, type }) {
   const [showPopover, setShowPopover] = useState(false);
   const popoverRef = useRef(null);
 
-  const { setParentId, selectedFolderId, setSelectedFolderId } =
+  const { setParentId, selectedItemId, setSelectedItemId } =
     useFolderStore();
-  const isSelected = selectedFolderId === id;
+  const isSelected = selectedItemId === id;
 
   const handleSingleClick = () => {
-    setSelectedFolderId(id);
+    setSelectedItemId(id);
   };
 
   const handleDoubleClick = () => {
-    setParentId(id);
+    if (type === "folder") {
+      setParentId(id);
+    }
   };
 
   const handleOptionsClick = (e) => {
     e.stopPropagation();
-    setSelectedFolderId(id);
+    setSelectedItemId(id);
     setShowPopover((prev) => !prev);
   };
 
@@ -31,7 +33,7 @@ export default function FolderCard({ id, folder }) {
       if (popoverRef.current && !popoverRef.current.contains(event.target)) {
         setShowPopover(false);
       }
-      setSelectedFolderId(null);
+      setSelectedItemId(null);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -48,22 +50,28 @@ export default function FolderCard({ id, folder }) {
     >
       {/* left elements */}
       <div className="flex items-center gap-4">
-        <div id="folder-icon" className="w-fit h-fit">
-          <div className="relative h-6 w-8">
-            <span className="absolute bottom-0 left-0 h-6 w-6 bg-neutral-500 rounded-xs"></span>
-            <span className="absolute bottom-0 left-0 h-5 w-8 bg-neutral-400 rounded-xs"></span>
-          </div>
+        <div id="item-icon" className="w-fit h-fit">
+          {type === "folder" ? (
+            <div className="relative h-6 w-8">
+              <span className="absolute bottom-0 left-0 h-6 w-6 bg-neutral-500 rounded-xs"></span>
+              <span className="absolute bottom-0 left-0 h-5 w-8 bg-neutral-400 rounded-xs"></span>
+            </div>
+          ) : (
+            <div className="w-6 h-6 bg-neutral-400 rounded-sm flex items-center justify-center text-xs">
+              📄
+            </div>
+          )}
         </div>
 
-        <span id="folder-label" className="text-center text-sm text-ellipsis">
-          {folder.name}
+        <span id="item-label" className="text-center text-sm text-ellipsis">
+          {item.name}
         </span>
       </div>
 
       {/* right elements */}
       <div className="h-full relative">
         <span
-          id="folder-option"
+          id="item-option"
           onClick={handleOptionsClick}
           className="flex items-center text-lg text-center h-full px-2 hover:bg-neutral-600"
         >
@@ -77,7 +85,7 @@ export default function FolderCard({ id, folder }) {
             onClick={(e) => e.stopPropagation()}
             className="absolute left-1/2 -translate-x-1/2"
           >
-            <Popover id={id} closePopover={() => setShowPopover(false)} />
+            <Popover id={id} type={type} closePopover={() => setShowPopover(false)} />
           </div>
         )}
       </div>

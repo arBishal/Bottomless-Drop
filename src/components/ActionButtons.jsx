@@ -10,3 +10,5 @@ export default function ActionButtons({ handleFolderCreation, handleUploadClick}
         </div>
     )
 }
+
+// there is hiccup on the upload. sometimes double click on the file does not work

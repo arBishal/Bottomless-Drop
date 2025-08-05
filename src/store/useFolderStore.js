@@ -17,13 +17,13 @@ const getInitialFolders = () => {
   };
 };
 
-const generateUniqueId = () => Date.now() + Math.floor(Math.random() * 1000);
+const generateUniqueId = () => crypto.randomUUID();
 
 const useFolderStore = create((set) => ({
   // initial state
   parentId: 0,
   folders: getInitialFolders(),
-  selectedFolderId: null,
+  selectedItemId: null,
 
   // setters
   setParentId: (id) => set({ parentId: id }),
@@ -35,7 +35,7 @@ const useFolderStore = create((set) => ({
       localStorage.setItem("folders", JSON.stringify(nextFolders));
       return { folders: nextFolders };
     }),
-  setSelectedFolderId: (id) => set({ selectedFolderId: id }),
+  setSelectedItemId: (id) => set({ selectedItemId: id }),
 
   // actions
   createFolder: (parentId, folderName) =>
@@ -91,26 +91,29 @@ const useFolderStore = create((set) => ({
       return { folders: updated };
     }),
 
-  addFileToFolder: (id, file) =>
+  addFileToFolder: (folderId, file) =>
     set((state) => {
-      const targetFolder = state.folders[id];
-      if (!targetFolder) {
-        return {};
-      }
+    const fileObject = {
+      id: generateUniqueId(),
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      content: file.result,
+      timestamp: Date.now(),
+    };
+    const updatedFolder = {
+      ...state.folders[folderId],
+      files: [...(state.folders[folderId].files || []), fileObject],
+    };
 
-      const updatedFolder = {
-        ...targetFolder,
-        files: [...(targetFolder.files || []), file],
-      };
+    const updatedFolders = {
+      ...state.folders,
+      [folderId]: updatedFolder,
+    };
 
-      const updatedFolders = {
-        ...state.folders,
-        [id]: updatedFolder,
-      };
-
-      localStorage.setItem("folders", JSON.stringify(updatedFolders));
-      return { folders: updatedFolders };
-    }),
+    localStorage.setItem("folders", JSON.stringify(updatedFolders));
+    return { folders: updatedFolders };
+  }),
 }));
 
 export default useFolderStore;
