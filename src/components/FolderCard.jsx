@@ -4,14 +4,12 @@ import useFolderStore from "../store/useFolderStore";
 
 import Popover from "./Popover";
 
-export default function FolderCard({
-  id,
-  folder,
-}) {
+export default function FolderCard({ id, folder }) {
   const [showPopover, setShowPopover] = useState(false);
   const popoverRef = useRef(null);
 
-  const { setParentId, selectedFolderId, setSelectedFolderId } = useFolderStore();
+  const { setParentId, selectedFolderId, setSelectedFolderId } =
+    useFolderStore();
   const isSelected = selectedFolderId === id;
 
   const handleSingleClick = () => {
@@ -22,12 +20,18 @@ export default function FolderCard({
     setParentId(id);
   };
 
+  const handleOptionsClick = (e) => {
+    e.stopPropagation();
+    setSelectedFolderId(id);
+    setShowPopover((prev) => !prev);
+  };
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (popoverRef.current && !popoverRef.current.contains(event.target)) {
         setShowPopover(false);
       }
-    setSelectedFolderId(null);
+      setSelectedFolderId(null);
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
@@ -60,10 +64,7 @@ export default function FolderCard({
       <div className="h-full relative">
         <span
           id="folder-option"
-          onClick={(e) => {
-            e.stopPropagation();
-            setShowPopover(!showPopover);
-          }}
+          onClick={handleOptionsClick}
           className="flex items-center text-lg text-center h-full px-2 hover:bg-neutral-600"
         >
           ⁝
@@ -76,10 +77,7 @@ export default function FolderCard({
             onClick={(e) => e.stopPropagation()}
             className="absolute left-1/2 -translate-x-1/2"
           >
-            <Popover
-              id={id}
-              closePopover={() => setShowPopover(false)}
-            />
+            <Popover id={id} closePopover={() => setShowPopover(false)} />
           </div>
         )}
       </div>

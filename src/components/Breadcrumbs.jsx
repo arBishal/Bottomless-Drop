@@ -7,7 +7,7 @@ export default function Breadcrumbs({currentFolder, setCurrentFolder, folders}) 
         tempId = folders[tempId].parent;
     }
 
-    path.push({id: 0, name: "Root"});
+    path.push({id: 0, name: "root"});
     path.reverse();
 
   return (
@@ -25,3 +25,4 @@ export default function Breadcrumbs({currentFolder, setCurrentFolder, folders}) 
 }   
 
 // append whitespace after folder name
+// refactor to reduce prop and use store

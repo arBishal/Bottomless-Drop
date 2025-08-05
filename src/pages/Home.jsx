@@ -1,40 +1,54 @@
-import React, { useState } from "react";
+import { useRef } from "react";
+
 import useFolderStore from "../store/useFolderStore";
+
 import Breadcrumbs from "../components/Breadcrumbs";
+import ActionButtons from "../components/ActionButtons";
 import Folders from "../components/Folders";
+import Files from "../components/Files";
 
 export default function Home() {
-  const { parentId, setParentId, folders, setFolders } = useFolderStore();
+  const { parentId, setParentId, folders, createFolder, addFileToFolder } = useFolderStore();
+  const fileInputRef = useRef(null);
+  const defaultFolderName = "meow folder";
 
-  const defaultFolderName = "Meow Folder";
-
-  function handleCreateFolder() {
-    const folderName = prompt("Enter folder name:", defaultFolderName);
+  const handleFolderCreation = () => {
+    const folderName = prompt("enter folder name:", defaultFolderName);
     if (folderName) {
-      console.log(`Creating folder: ${folderName}`);
-
-      let folderId = "id" + Math.floor(Math.random() * 1000);
-      let updatedFolders = { ...folders };
-
-      if (updatedFolders[parentId]) {
-        updatedFolders[parentId].children.push(folderId);
-      } else {
-        console.warn(`Parent folder with id "${parentId}" not found.`);
-      }
-
-      updatedFolders[folderId] = {
-        id: folderId,
-        name: folderName,
-        parent: parentId,
-        children: [],
-      };
-      setFolders(updatedFolders);
-      console.log(folders);
+      createFolder(parentId, folderName);
+      console.log("folder created:", folderName);
+      return;
     } else {
-      console.log("No name provided.");
+      console.log("no name provided");
       return;
     }
   }
+
+  const handleUploadClick = () => {
+    fileInputRef.current.click();
+    console.log("upload button clicked");
+  }
+
+  const handleFileUpload = (e) => {
+    const files = e.target.files;
+
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileObject = {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          content: file.result,
+          timestamp: Date.now(),
+        };
+        addFileToFolder(parentId, fileObject);
+        console.log("file uploaded:", fileObject);
+      };
+      reader.readAsDataURL(file);
+      console.log("file read:", file.name);
+    });
+  };
 
   return (
     <div className="h-full w-full max-w-5xl flex flex-col">
@@ -44,22 +58,21 @@ export default function Home() {
           setCurrentFolder={setParentId}
           folders={folders}
         />
-        <div className="flex h-full">
-          <button className="bg-neutral-900 px-6 py-3 w-full h-full hover:bg-neutral-700 font-bold border-l border-b border-neutral-700 cursor-pointer">
-            ⤴︎
-          </button>
-          <button onClick={handleCreateFolder} className="bg-neutral-900 px-6 py-3 w-full h-full rounded-tr-2xl hover:bg-neutral-700 font-bold border-l border-b border-neutral-700 cursor-pointer">
-            +
-          </button>
-        </div>
+        <ActionButtons handleFolderCreation={handleFolderCreation} handleUploadClick={handleUploadClick} />
+        <input
+        type="file"
+        ref={fileInputRef}
+        multiple
+        className="hidden"
+        onChange={handleFileUpload}
+        />
       </div>
-      <div className="bg-neutral-900 rounded-b-2xl p-6 w-full h-full">
+      <div className="bg-neutral-900 rounded-b-2xl p-6 w-full h-full flex flex-col gap-8">
         <Folders
           folders={folders}
-          setFolders={setFolders}
           parentId={parentId}
-          setParentId={setParentId}
         />
+        <Files />
       </div>
     </div>
   );

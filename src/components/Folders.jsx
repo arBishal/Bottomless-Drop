@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 import FolderCard from "./FolderCard";
 
 export default function Folders({
