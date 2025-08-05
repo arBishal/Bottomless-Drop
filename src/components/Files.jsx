@@ -7,7 +7,7 @@ export default function Folders() {
   return (
     <div id="folder-collection" className="w-full flex-grow">
       {currentFolder?.files?.length > 0 ? (
-        <div className="grid grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
           {currentFolder.files.map((file) => (
             <ItemCard key={file.id} id={file.id} item={file} type={"file"} />
           ))}

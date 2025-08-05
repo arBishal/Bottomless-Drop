@@ -44,7 +44,7 @@ export default function FolderCard({ id, item, type }) {
       key={id}
       onClick={handleSingleClick}
       onDoubleClick={handleDoubleClick}
-      className={`min-h-14 flex items-center justify-between gap-4 rounded-lg cursor-pointer pl-4 pr-3 ${
+      className={`min-h-12 flex items-center justify-between gap-4 rounded-lg cursor-pointer pl-4 pr-3 ${
         isSelected ? "bg-neutral-700" : "hover:bg-neutral-800"
       }`}
     >
@@ -63,7 +63,8 @@ export default function FolderCard({ id, item, type }) {
           )}
         </div>
 
-        <span id="item-label" className="text-center text-sm text-ellipsis">
+        <span id="item-label" className={`text-sm truncate overflow-hidden whitespace-nowrap ${
+          type === "folder" ? "max-w-24" : "max-w-56"}`}>
           {item.name}
         </span>
       </div>
