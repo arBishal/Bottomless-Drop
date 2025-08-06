@@ -47,7 +47,7 @@ export default function Home() {
 };
 
   return (
-    <div className="min-h-full w-full max-w-5xl flex flex-col">
+    <div className="h-full w-full max-w-5xl flex flex-col flex-grow">
       <div className="flex items-center justify-between">
         <Breadcrumbs
           currentFolder={parentId}

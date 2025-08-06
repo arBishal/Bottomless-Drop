@@ -72,3 +72,5 @@ export default function Popover({ id, type, closePopover }) {
     </div>
   );
 }
+
+// the tricolon hovers before the popover

@@ -44,12 +44,12 @@ export default function FolderCard({ id, item, type }) {
       key={id}
       onClick={handleSingleClick}
       onDoubleClick={handleDoubleClick}
-      className={`min-h-12 flex items-center justify-between gap-4 rounded-lg cursor-pointer pl-4 pr-3 ${
+      className={`min-h-12 w-full flex items-center justify-between gap-4 rounded-lg cursor-pointer pl-4 pr-3 ${
         isSelected ? "bg-neutral-700" : "hover:bg-neutral-800"
       }`}
     >
       {/* left elements */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 w-9/12">
         <div id="item-icon" className="w-fit h-fit">
           {type === "folder" ? (
             <div className="relative h-6 w-8">
@@ -63,8 +63,7 @@ export default function FolderCard({ id, item, type }) {
           )}
         </div>
 
-        <span id="item-label" className={`text-sm truncate overflow-hidden whitespace-nowrap ${
-          type === "folder" ? "max-w-24" : "max-w-56"}`}>
+        <span id="item-label" className="text-sm truncate">
           {item.name}
         </span>
       </div>
