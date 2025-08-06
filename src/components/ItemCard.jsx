@@ -57,8 +57,10 @@ export default function FolderCard({ id, item, type }) {
               <span className="absolute bottom-0 left-0 h-5 w-8 bg-neutral-400 rounded-xs"></span>
             </div>
           ) : (
-            <div className="w-6 h-6 bg-neutral-400 rounded-sm flex items-center justify-center text-xs">
-              📄
+            <div className="relative h-6 w-8">
+              <span className="absolute bottom-0 left-0 h-6 w-5 bg-neutral-500 rounded-xs"></span>
+              <span className="absolute bottom-0 left-1 h-6 w-5 bg-neutral-400 rounded-xs"></span>
+              <span className="absolute top-0 left-2 text-neutral-300">f</span>
             </div>
           )}
         </div>
