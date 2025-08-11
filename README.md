@@ -1,12 +1,103 @@
-# React + Vite
+# Bottomless Drop
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimalist, recursive file system explorer built with React and Tailwind CSS. A clean, drag-and-drop interface for managing files and folders—all.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+- **Recursive Folder Structure**
+  - Tree-like file system navigation
+  - Infinite nesting support
+  - Visual folder/file distinction
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Drag & Drop Operations**
+  - Intuitive drag-and-drop interface
+  - Move items between folders
+  - Visual feedback during drag operations
+
+- **Quick Actions**
+  - Create new folders
+  - Upload files (simulated)
+  - Rename items
+  - Delete items
+
+- **Navigation**
+  - Breadcrumb path display
+  - Single/double-click interactions
+
+### To-Implement
+
+- Rename folders/files in-place
+- Sort folders/files
+- Add color suppport
+- Open/preview files
+- Details panel
+- Intro panel
+- Use IndexedDB instead of Local Storage
+
+
+## Tech Stack
+
+- React 19
+- Tailwind CSS v4
+- Vite
+- Browser APIs (Drag & Drop, File System)
+
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 16+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/bottomless-drop.git
+```
+
+2. Navigate to project directory
+```bash
+cd bottomless-drop
+```
+
+3. Install dependencies
+```bash
+npm install
+```
+
+4. Start development server
+```bash
+npm run dev
+```
+
+
+## Project Structure
+
+```
+bottomless-drop/
+├── src/
+│   ├── components/
+│   │   ├── ItemCard.jsx       # File/folder item component
+│   │   ├── Popover.jsx       # Actions menu component
+│   │   └── ...
+│   ├── store/
+│   │   └── useFolderStore.js # State management
+│   ├── pages/
+│   │   └── Home.jsx          # Main page component
+│   └── App.jsx               # Root component
+├── public/
+└── ...
+```
+
+
+## Usage
+
+- **Create Folder**: Click the **+** button
+- **Upload File**: Click the **⤴︎** button
+- **Rename/Delete**: Use the **⋮** on any item
+- **Move Items**: Drag any file/folder into a target folder
+- **Highlight**: Single-click files/folders to select
+- **Navigate**: Double-click folders to enter 
