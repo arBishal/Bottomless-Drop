@@ -114,6 +114,62 @@ const useFolderStore = create((set) => ({
     localStorage.setItem("folders", JSON.stringify(updatedFolders));
     return { folders: updatedFolders };
   }),
+
+  moveitemIntoFolder: (draggedItemId, targetFolderId, type) =>
+    set((state) => {
+      const folders = {...state.folders};
+
+      if(!folders[targetFolderId]) {
+        return;
+      }
+
+      if(type === "folder") {
+        const draggedFoldder = folders[draggedItemId];
+        if(!draggedFoldder || draggedItemId === targetFolderId) {
+          return {};
+        }
+
+        const currentParentId = draggedFoldder.parent;
+        if(currentParentId !== null && folders[currentParentId]) {
+          folders[currentParentId].children = folders[currentParentId].children.filter(
+            (childId) => childId !== draggedItemId
+          );
+        }
+
+        folders[draggedItemId].parent = targetFolderId;
+        folders[targetFolderId].children.push(draggedItemId);
+      }
+      else if(type === "file") {
+        let parentFolderId = null;
+        for(const [folderId, folder] of Object.entries(folders)) {
+          if(folder.files?.some((file) => file.id === draggedItemId)) {
+            parentFolderId = folderId;
+            break;
+          }
+        }
+
+        if(!parentFolderId) {
+          return {};
+        }
+
+        const draggedFile = folders[parentFolderId].files.find(
+          (file) => file.id === draggedItemId
+        );
+        
+        if(!draggedFile) {
+          return {};
+        }
+
+        folders[parentFolderId].files = folders[parentFolderId].files.filter(
+          (file) => file.id !== draggedItemId
+        );
+        folders[targetFolderId].files.push(draggedFile);
+      }
+      
+      localStorage.setItem("folders", JSON.stringify(folders));
+      return { folders };
+    })
+
 }));
 
 export default useFolderStore;

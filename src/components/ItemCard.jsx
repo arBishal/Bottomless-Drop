@@ -8,7 +8,7 @@ export default function FolderCard({ id, item, type }) {
   const [showPopover, setShowPopover] = useState(false);
   const popoverRef = useRef(null);
 
-  const { setParentId, selectedItemId, setSelectedItemId } =
+  const { setParentId, selectedItemId, setSelectedItemId, moveitemIntoFolder } =
     useFolderStore();
   const isSelected = selectedItemId === id;
 
@@ -28,6 +28,14 @@ export default function FolderCard({ id, item, type }) {
     setShowPopover((prev) => !prev);
   };
 
+  const handleDrop = (draggedItemId, targetFolderId, draggedItemType) => {
+    if(draggedItemId === targetFolderId) {
+      return;
+    }
+    moveitemIntoFolder(draggedItemId, targetFolderId, draggedItemType);
+    console.log(`${draggedItemType} ${draggedItemId} dropped into folder ${targetFolderId}`);
+  }
+
   useEffect(() => {
     function handleClickOutside(event) {
       if (popoverRef.current && !popoverRef.current.contains(event.target)) {
@@ -42,6 +50,21 @@ export default function FolderCard({ id, item, type }) {
   return (
     <div
       key={id}
+      draggable
+      onDragStart={(e) => {
+        e.dataTransfer.setData("application/json", JSON.stringify({ id, type }));
+      }} 
+      onDragOver={(e) => {
+        if(type === "folder") {
+          e.preventDefault();
+        }
+      }}
+      onDrop={(e) => {
+        if(type === "folder") {
+          const data = JSON.parse(e.dataTransfer.getData("application/json"));
+          handleDrop(data.id, id, data.type);
+        }
+      }}
       onClick={handleSingleClick}
       onDoubleClick={handleDoubleClick}
       className={`min-h-12 w-full flex items-center justify-between gap-4 rounded-lg cursor-pointer pl-4 pr-3 ${
