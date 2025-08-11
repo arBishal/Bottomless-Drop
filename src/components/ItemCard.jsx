@@ -33,7 +33,6 @@ export default function FolderCard({ id, item, type }) {
       return;
     }
     moveitemIntoFolder(draggedItemId, targetFolderId, draggedItemType);
-    console.log(`${draggedItemType} ${draggedItemId} dropped into folder ${targetFolderId}`);
   }
 
   useEffect(() => {

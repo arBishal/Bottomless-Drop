@@ -8,7 +8,8 @@ import Folders from "../components/Folders";
 import Files from "../components/Files";
 
 export default function Home() {
-  const { parentId, setParentId, folders, createFolder, addFileToFolder } = useFolderStore();
+  const { parentId, setParentId, folders, createFolder, addFileToFolder } =
+    useFolderStore();
   const fileInputRef = useRef(null);
   const defaultFolderName = "meow folder";
 
@@ -22,29 +23,29 @@ export default function Home() {
       console.log("no name provided");
       return;
     }
-  }
+  };
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
-  }
+  };
 
   const handleFileUpload = (e) => {
-  const files = e.target.files;
+    const files = e.target.files;
 
-  Array.from(files).forEach((file) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      addFileToFolder(parentId, {
-        name: file.name,
-        type: file.type,
-        size: file.size,
-        result: reader.result,
-      });
-      console.log("file uploaded:", file.name);
-    };
-    reader.readAsDataURL(file);
-  });
-};
+    Array.from(files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        addFileToFolder(parentId, {
+          name: file.name,
+          type: file.type,
+          size: file.size,
+          result: reader.result,
+        });
+        console.log("file uploaded:", file.name);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
 
   return (
     <div className="h-full w-full max-w-5xl flex flex-col flex-grow">
@@ -54,22 +55,22 @@ export default function Home() {
           setCurrentFolder={setParentId}
           folders={folders}
         />
-        <ActionButtons handleFolderCreation={handleFolderCreation} handleUploadClick={handleUploadClick} />
+        <ActionButtons
+          handleFolderCreation={handleFolderCreation}
+          handleUploadClick={handleUploadClick}
+        />
         <input
-        type="file"
-        ref={fileInputRef}
-        multiple
-        className="hidden"
-        onChange={handleFileUpload}
+          type="file"
+          ref={fileInputRef}
+          multiple
+          className="hidden"
+          onChange={handleFileUpload}
         />
       </div>
       <div className="bg-neutral-900 rounded-b-2xl p-6 w-full h-full flex flex-col gap-1">
         <h2> folders </h2>
-        <Folders
-          folders={folders}
-          parentId={parentId}
-        />
-        <hr className="border-neutral-800 my-6"/>
+        <Folders folders={folders} parentId={parentId} />
+        <hr className="border-neutral-800 my-6" />
         <h2> files </h2>
         <Files />
       </div>
