@@ -49,7 +49,7 @@ export default function Home() {
 
   return (
     <div className="h-full w-full flex flex-col flex-grow">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-center justify-between">
         <Breadcrumbs
           currentFolder={parentId}
           setCurrentFolder={setParentId}
