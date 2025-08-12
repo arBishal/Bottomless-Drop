@@ -48,7 +48,7 @@ export default function Home() {
   };
 
   return (
-    <div className="h-full w-full max-w-5xl flex flex-col flex-grow">
+    <div className="h-full w-full flex flex-col flex-grow">
       <div className="flex items-center justify-between">
         <Breadcrumbs
           currentFolder={parentId}
@@ -68,10 +68,10 @@ export default function Home() {
         />
       </div>
       <div className="bg-neutral-900 rounded-b-2xl p-6 w-full h-full flex flex-col gap-1">
-        <h2> folders </h2>
+        <h2 className="font-bold text-lg"> folders </h2>
         <Folders folders={folders} parentId={parentId} />
         <hr className="border-neutral-800 my-6" />
-        <h2> files </h2>
+        <h2 className="font-bold text-lg"> files </h2>
         <Files />
       </div>
     </div>
